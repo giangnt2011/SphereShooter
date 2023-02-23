@@ -30,9 +30,9 @@ public class PlayerMovement : MonoBehaviour
 
     bool GetInput(string horizontal, string vertical)
     {
-        input.x = SimpleInput.GetAxisRaw(horizontal) * speed;
-        input.y = SimpleInput.GetAxisRaw(vertical) * speed;
-        return (Mathf.Abs(input.x) > 1f) || (Mathf.Abs(input.y) > 1f);
+        input.x = SimpleInput.GetAxis(horizontal) * speed;
+        input.y = SimpleInput.GetAxis(vertical) * speed;
+        return (Mathf.Abs(input.x) > 0.01f) || (Mathf.Abs(input.y) > 0.01f);
     }
 
     void MovePlayer()
