@@ -18,25 +18,36 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        Debug.Log("FixedUpdate");
         if (GetInput("Horizontal", "Vertical"))
         {
+            Debug.Log("start2");
+
             MovePlayer();
         }
         if (GetInput("MouseX", "MouseY"))
         {
+            Debug.Log("start3");
+
             RotateTurret();
         }
     }
 
     bool GetInput(string horizontal, string vertical)
     {
+        Debug.Log("getinput");
         input.x = SimpleInput.GetAxis(horizontal) * speed;
         input.y = SimpleInput.GetAxis(vertical) * speed;
+
+        Debug.Log(Mathf.Abs(input.x));
+        Debug.Log(Mathf.Abs(input.y));
+
         return (Mathf.Abs(input.x) > 0.01f) || (Mathf.Abs(input.y) > 0.01f);
     }
 
     void MovePlayer()
     {
+        Debug.Log("moving");
         cubeRb.velocity = Vector3.Normalize(new Vector3(input.x, 0,input.y)) * speed;
     }
 

@@ -8,6 +8,10 @@ public class Enemy : MonoBehaviour
     const string bulletTag = "Bullet";
     public float minSpeed = 1.0f;
     public float maxSpeed = 6.0f;
+    
+    public int health = 1;
+    public int damageToCause = 1;
+
     float speed;
     GameObject player;
     public GameObject enemyExplosionPrefab;
@@ -16,7 +20,7 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        speed = Random.Range(minSpeed, maxSpeed);
+        speed = Random.Range(minSpeed, maxSpeed) + (Time.time / 25);
         audioSource = GetComponent<AudioSource>();
         player = GameObject.FindWithTag(playerTag);
     }
@@ -32,19 +36,21 @@ public class Enemy : MonoBehaviour
             GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
         }
     }
-
-    void OnCollisionEnter(Collision col)
-    {
-        if (col.gameObject.CompareTag(bulletTag))
-        {
+    void OnCollisionEnter(Collision col) {
+        if (col.gameObject.CompareTag(bulletTag))  {
             Destroy(col.gameObject);
+            ScoreManager.scoreManager.IncreaseScore(1);
+            health--;
         }
-        if (col.gameObject.CompareTag(playerTag) || col.gameObject.CompareTag(bulletTag))
+        if (col.gameObject.CompareTag(playerTag))  {
+            HealthManager.instance.ChangeHealth(-damageToCause);
+            DestroyEnemy();
+        }
+
+        if (health <= 0)
         {
             DestroyEnemy();
-            ScoreManager.scoreManager.IncreaseScore(1);
         }
-
     }
     void DestroyEnemy()
     {

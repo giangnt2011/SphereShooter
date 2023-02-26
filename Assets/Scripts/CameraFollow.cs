@@ -10,6 +10,9 @@ public class CameraFollow : MonoBehaviour
     // Start is called before the first frame update
     void LateUpdate()
     {
-        this.transform.position = new Vector3(player.position.x, height, player.position.z);
+        if (player)
+        {
+            this.transform.position = new Vector3(player.position.x, height, player.position.z);
+        }
     }
 }
